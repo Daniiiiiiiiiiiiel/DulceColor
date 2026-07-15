@@ -112,6 +112,33 @@
         <button class="btn-action btn-primary btn-sm" id="btnSaveHorarios">Guardar cambios</button>
       </div>
       <div style="padding:1.5rem">
+        <!-- Configuración General del Aforo y Tiempos -->
+        <div class="settings-box" style="margin-bottom: 2rem; padding: 1.25rem; background: #fbf9fa; border-radius: var(--radius-md); border: 1.5px solid var(--border)">
+          <h4 style="font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dark); margin-bottom: 1.1rem; display: flex; align-items: center; gap: .5rem">⚙️ Reglas de Aforo e Intervalos</h4>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem">
+            <div>
+              <label style="display: block; font-size: .76rem; font-weight: 600; color: var(--text-mid); margin-bottom: .4rem">Aforo Máximo Simultáneo (Personas)</label>
+              <input type="number" id="cfgCapacidad" min="1" max="100" style="width:100%; padding: .55rem .75rem; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: .84rem; font-weight: 600; color: var(--text-dark); outline:none" />
+            </div>
+            <div>
+              <label style="display: block; font-size: .76rem; font-weight: 600; color: var(--text-mid); margin-bottom: .4rem">Duración de cada Reserva</label>
+              <select id="cfgDuracion" style="width:100%; padding: .55rem .75rem; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: .84rem; font-weight: 600; color: var(--text-dark); outline:none">
+                <option value="30">30 minutos</option>
+                <option value="45">45 minutos</option>
+                <option value="60">1 hora (60 min)</option>
+                <option value="90">1.5 horas (90 min)</option>
+                <option value="120">2 horas (120 min)</option>
+                <option value="180">3 horas (180 min)</option>
+                <option value="240">4 horas (240 min)</option>
+              </select>
+            </div>
+            <div>
+              <label style="display: block; font-size: .76rem; font-weight: 600; color: var(--text-mid); margin-bottom: .4rem">Límite de Personas por Reserva</label>
+              <input type="number" id="cfgMaxGrupo" min="1" max="50" style="width:100%; padding: .55rem .75rem; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: .84rem; font-weight: 600; color: var(--text-dark); outline:none" />
+            </div>
+          </div>
+        </div>
+
         <div id="horariosContainer" class="horarios-grid-layout">
           <!-- Se renderizan los grupos desde app.js -->
           <div class="page-loader"><div class="spinner"></div></div>

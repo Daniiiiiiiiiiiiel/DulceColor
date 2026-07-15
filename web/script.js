@@ -222,6 +222,26 @@ async function fetchDisponibilidad(fecha) {
   }
 }
 
+/* ---- Supabase: obtener configuraciones generales ---- */
+async function fetchConfiguraciones() {
+  const url = window.SUPABASE_URL;
+  const key = window.SUPABASE_ANON_KEY;
+  if (!url || url.includes('PEGA_')) return { maximo_personas_por_grupo: 6 };
+  try {
+    const r = await fetch(`${url}/rest/v1/configuracion_general`, {
+      headers: { 'apikey': key, 'Authorization': `Bearer ${key}` }
+    });
+    if (!r.ok) return { maximo_personas_por_grupo: 6 };
+    const data = await r.json();
+    const maxG = data.find(c => c.id === 'maximo_personas_por_grupo')?.valor || '6';
+    return { maximo_personas_por_grupo: parseInt(maxG) };
+  } catch (err) {
+    console.warn('[Supabase] fetchConfiguraciones:', err);
+    return { maximo_personas_por_grupo: 6 };
+  }
+}
+
+
 function closeModal() {
   document.getElementById('modalOverlay').classList.remove('active');
   const mapOverlay = document.getElementById('mapModalOverlay');
@@ -604,6 +624,20 @@ function initBookingWizard() {
       }
     });
   }
+
+  // Cargar configuración general de aforo/grupos al iniciar
+  fetchConfiguraciones().then(config => {
+    const selectPersonas = document.getElementById('reservaPersonas');
+    if (selectPersonas) {
+      selectPersonas.innerHTML = '';
+      for (let i = 1; i <= config.maximo_personas_por_grupo; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = `${i} ${i === 1 ? 'persona' : 'personas'}`;
+        selectPersonas.appendChild(opt);
+      }
+    }
+  });
 
   renderCalendar(currentYear, currentMonth);
   renderTimeSlots();

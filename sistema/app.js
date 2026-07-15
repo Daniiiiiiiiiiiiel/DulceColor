@@ -233,6 +233,17 @@ async function loadHorarios() {
   const container = document.getElementById('horariosContainer');
   container.innerHTML = '<div class="page-loader"><div class="spinner"></div></div>';
   try {
+    // 1. Cargar configuraciones generales del local
+    const configData = await sbGet('configuracion_general');
+    const cap = configData.find(c => c.id === 'capacidad_maxima_local')?.valor || '20';
+    const dur = configData.find(c => c.id === 'duracion_reserva_minutos')?.valor || '120';
+    const maxG = configData.find(c => c.id === 'maximo_personas_por_grupo')?.valor || '6';
+
+    document.getElementById('cfgCapacidad').value = cap;
+    document.getElementById('cfgDuracion').value = dur;
+    document.getElementById('cfgMaxGrupo').value = maxG;
+
+    // 2. Cargar los slots de horarios
     horariosData = await sbGet('configuracion_horarios','order=orden.asc');
     
     const manana = horariosData.filter(h => h.slot.toLowerCase().includes('am'));
@@ -268,6 +279,18 @@ document.getElementById('btnSaveHorarios').addEventListener('click', async () =>
   const btn = document.getElementById('btnSaveHorarios');
   btn.disabled=true; btn.textContent='Guardando...';
   try {
+    // 1. Guardar configuraciones generales
+    const capVal = document.getElementById('cfgCapacidad').value || '20';
+    const durVal = document.getElementById('cfgDuracion').value || '120';
+    const maxGVal = document.getElementById('cfgMaxGrupo').value || '6';
+
+    await Promise.all([
+      sbPatch('configuracion_general', 'capacidad_maxima_local', { valor: capVal }),
+      sbPatch('configuracion_general', 'duracion_reserva_minutos', { valor: durVal }),
+      sbPatch('configuracion_general', 'maximo_personas_por_grupo', { valor: maxGVal }),
+    ]);
+
+    // 2. Guardar slots individuales
     const cards = [...document.querySelectorAll('#horariosContainer .slot-card-item')];
     await Promise.all(cards.map(card => {
       const id = card.dataset.id;
@@ -283,7 +306,7 @@ document.getElementById('btnSaveHorarios').addEventListener('click', async () =>
         h.limite_personas = parseInt(card.querySelector('.slot-capacity-input').value) || 4;
       }
     });
-    toast('Horarios guardados');
+    toast('Horarios y configuración guardados');
   } catch(e) { toast('Error: '+e.message,'error'); }
   btn.disabled=false; btn.textContent='Guardar cambios';
 });
