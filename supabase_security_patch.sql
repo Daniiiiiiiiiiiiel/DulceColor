@@ -178,3 +178,12 @@ CREATE POLICY "admins_deny_public"
   TO anon, authenticated
   USING (false)
   WITH CHECK (false);
+
+-- 6. Revocar accesos públicos a las nuevas funciones críticas
+REVOKE EXECUTE ON FUNCTION public.generar_slots(INTEGER) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.generar_slots(INTEGER) FROM anon;
+REVOKE EXECUTE ON FUNCTION public.generar_slots(INTEGER) FROM authenticated;
+
+REVOKE EXECUTE ON FUNCTION public.trg_actualizar_duracion_slots() FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.trg_actualizar_duracion_slots() FROM anon;
+REVOKE EXECUTE ON FUNCTION public.trg_actualizar_duracion_slots() FROM authenticated;

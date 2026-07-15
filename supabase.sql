@@ -254,4 +254,13 @@ GRANT EXECUTE ON FUNCTION public.slot_a_minutos(TEXT) TO authenticated;
 GRANT EXECUTE ON FUNCTION public.get_disponibilidad(DATE) TO anon;
 GRANT EXECUTE ON FUNCTION public.get_disponibilidad(DATE) TO authenticated;
 
+-- Revocar privilegios de ejecución en funciones críticas para evitar abuso
+REVOKE EXECUTE ON FUNCTION public.generar_slots(INTEGER) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.generar_slots(INTEGER) FROM anon;
+REVOKE EXECUTE ON FUNCTION public.generar_slots(INTEGER) FROM authenticated;
+
+REVOKE EXECUTE ON FUNCTION public.trg_actualizar_duracion_slots() FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION public.trg_actualizar_duracion_slots() FROM anon;
+REVOKE EXECUTE ON FUNCTION public.trg_actualizar_duracion_slots() FROM authenticated;
+
 -- service_role (usado por el panel admin) ya tiene acceso total por defecto en Supabase

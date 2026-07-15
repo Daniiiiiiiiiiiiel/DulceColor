@@ -120,28 +120,19 @@ tbody tr:last-child{border-bottom:none}
 .slot-card-item {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  justify-content: space-between;
-  padding: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 1.1rem 0.6rem;
   border-radius: var(--radius-md);
   border: 1.5px solid var(--border);
   background: var(--white);
-  transition: all var(--t);
-  overflow: hidden;
-}
-.slot-card-click-area {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem 0.6rem 0.6rem 0.6rem;
   cursor: pointer;
-  width: 100%;
-  user-select: none;
-  text-align: center;
+  transition: all var(--t);
   position: relative;
+  text-align: center;
+  user-select: none;
 }
-.slot-card-click-area input[type="checkbox"] {
+.slot-card-item input[type="checkbox"] {
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -172,43 +163,6 @@ tbody tr:last-child{border-bottom:none}
 .slot-card-item.active .slot-card-status {
   color: var(--pink);
   font-weight: 600;
-}
-.slot-card-capacity-input-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-  padding: 0.5rem 0.6rem;
-  border-top: 1px dashed var(--border);
-  background: rgba(250, 240, 244, 0.5);
-  transition: all var(--t);
-}
-.capacity-label {
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: var(--text-mid);
-}
-.slot-capacity-input {
-  width: 44px;
-  padding: 0.15rem 0.3rem;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 0.72rem;
-  font-family: inherit;
-  text-align: center;
-  color: var(--text-dark);
-  background: var(--white);
-  outline: none;
-  font-weight: 600;
-  transition: all var(--t);
-}
-.slot-capacity-input:focus {
-  border-color: var(--pink);
-}
-.slot-card-item.active .slot-card-capacity-input-wrap {
-  background: rgba(232, 101, 138, 0.08);
-  border-top-style: solid;
-  border-top-color: var(--pink-light);
 }
 .slot-card-item.inactive:hover {
   border-color: var(--text-light);

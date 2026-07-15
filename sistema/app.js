@@ -213,19 +213,15 @@ window.toggleSlotClass = function(cb) {
   }
 };
 
+let currentDurationSetting = '120';
+
 function renderSlotCell(h) {
   return `
-    <div class="slot-card-item ${h.activo ? 'active' : 'inactive'}" data-id="${h.id}">
-      <label class="slot-card-click-area">
-        <input type="checkbox" ${h.activo ? 'checked' : ''} onchange="toggleSlotClass(this)" />
-        <span class="slot-card-time">${esc(h.slot)}</span>
-        <span class="slot-card-status">${h.activo ? 'Habilitado' : 'Deshabilitado'}</span>
-      </label>
-      <div class="slot-card-capacity-input-wrap">
-        <span class="capacity-label">Capacidad:</span>
-        <input type="number" class="slot-capacity-input" value="${h.limite_personas || 4}" min="1" max="50" />
-      </div>
-    </div>
+    <label class="slot-card-item ${h.activo ? 'active' : 'inactive'}" data-id="${h.id}">
+      <input type="checkbox" ${h.activo ? 'checked' : ''} onchange="toggleSlotClass(this)" />
+      <span class="slot-card-time">${esc(h.slot)}</span>
+      <span class="slot-card-status">${h.activo ? 'Habilitado' : 'Deshabilitado'}</span>
+    </label>
   `;
 }
 
@@ -238,6 +234,8 @@ async function loadHorarios() {
     const cap = configData.find(c => c.id === 'capacidad_maxima_local')?.valor || '20';
     const dur = configData.find(c => c.id === 'duracion_reserva_minutos')?.valor || '120';
     const maxG = configData.find(c => c.id === 'maximo_personas_por_grupo')?.valor || '6';
+
+    currentDurationSetting = dur;
 
     document.getElementById('cfgCapacidad').value = cap;
     document.getElementById('cfgDuracion').value = dur;
@@ -279,34 +277,42 @@ document.getElementById('btnSaveHorarios').addEventListener('click', async () =>
   const btn = document.getElementById('btnSaveHorarios');
   btn.disabled=true; btn.textContent='Guardando...';
   try {
-    // 1. Guardar configuraciones generales
+    // 1. Obtener valores
     const capVal = document.getElementById('cfgCapacidad').value || '20';
     const durVal = document.getElementById('cfgDuracion').value || '120';
     const maxGVal = document.getElementById('cfgMaxGrupo').value || '6';
 
+    const duracionCambio = (durVal !== currentDurationSetting);
+
+    // 2. Guardar configuraciones generales
     await Promise.all([
       sbPatch('configuracion_general', 'capacidad_maxima_local', { valor: capVal }),
       sbPatch('configuracion_general', 'duracion_reserva_minutos', { valor: durVal }),
       sbPatch('configuracion_general', 'maximo_personas_por_grupo', { valor: maxGVal }),
     ]);
 
-    // 2. Guardar slots individuales
-    const cards = [...document.querySelectorAll('#horariosContainer .slot-card-item')];
-    await Promise.all(cards.map(card => {
-      const id = card.dataset.id;
-      const activo = card.querySelector('input[type=checkbox]').checked;
-      const limite = parseInt(card.querySelector('.slot-capacity-input').value) || 4;
-      return sbPatch('configuracion_horarios', id, { activo, limite_personas: limite });
-    }));
-    
-    cards.forEach(card => {
-      const h = horariosData.find(x => x.id === card.dataset.id);
-      if (h) {
-        h.activo = card.querySelector('input[type=checkbox]').checked;
-        h.limite_personas = parseInt(card.querySelector('.slot-capacity-input').value) || 4;
-      }
-    });
-    toast('Horarios y configuración guardados');
+    // 3. Si la duración cambió, la base de datos regeneró los slots automáticamente.
+    // Solo guardamos slots individuales si la duración es la misma.
+    if (!duracionCambio) {
+      const cards = [...document.querySelectorAll('#horariosContainer .slot-card-item')];
+      await Promise.all(cards.map(card => {
+        const id = card.dataset.id;
+        const activo = card.querySelector('input[type=checkbox]').checked;
+        return sbPatch('configuracion_horarios', id, { activo });
+      }));
+      
+      cards.forEach(card => {
+        const h = horariosData.find(x => x.id === card.dataset.id);
+        if (h) {
+          h.activo = card.querySelector('input[type=checkbox]').checked;
+        }
+      });
+      toast('Horarios y configuración guardados');
+    } else {
+      // Recargar la nueva grilla de horarios autogenerada
+      toast('Configuración guardada. Regenerando intervalos...');
+      await loadHorarios();
+    }
   } catch(e) { toast('Error: '+e.message,'error'); }
   btn.disabled=false; btn.textContent='Guardar cambios';
 });
