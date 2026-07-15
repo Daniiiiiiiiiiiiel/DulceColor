@@ -603,6 +603,13 @@ function initBookingWizard() {
       if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Confirmar Reserva'; }
 
       if (result.ok) {
+        // SVG Checkmark Rosa
+        document.getElementById('modalIcon').innerHTML = `
+          <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="var(--pink-main)" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+            <polyline points="22 4 12 14.01 9 11.01" />
+          </svg>
+        `;
         const opts = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
         let ds = selectedDate.toLocaleDateString('es-ES', opts);
         ds = ds.charAt(0).toUpperCase() + ds.slice(1);
@@ -617,10 +624,19 @@ function initBookingWizard() {
         formReservaCompleta.reset();
         selectedTimeSlot = null; updateSchedulingText();
       } else {
+        // SVG Alerta/Cruz Rojo
+        document.getElementById('modalIcon').innerHTML = `
+          <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="15" y1="9" x2="9" y2="15"></line>
+            <line x1="9" y1="9" x2="15" y2="15"></line>
+          </svg>
+        `;
         document.getElementById('modalTitle').textContent = 'Error al enviar';
         document.getElementById('modalMsg').textContent = 'No pudimos procesar tu reserva. Intenta de nuevo o contáctanos directamente.';
         document.getElementById('modalOverlay').classList.add('active');
         document.body.style.overflow = 'hidden';
+        console.error('[Reserva Error] Servidor respondió con estatus:', result.status);
       }
     });
   }

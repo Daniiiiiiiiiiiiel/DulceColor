@@ -69,6 +69,86 @@ $$;
 GRANT EXECUTE ON FUNCTION public.slot_a_minutos(TEXT) TO anon;
 GRANT EXECUTE ON FUNCTION public.slot_a_minutos(TEXT) TO authenticated;
 
+-- 1.4 Crear función de autogeneración de slots en base a duración
+CREATE OR REPLACE FUNCTION public.generar_slots(p_duracion_minutos INTEGER)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+  v_inicio INTEGER := 9 * 60;
+  v_fin INTEGER := 17 * 60;
+  v_actual INTEGER;
+  v_slot_inicio TEXT;
+  v_slot_fin TEXT;
+  v_slot_completo TEXT;
+  v_orden INTEGER := 1;
+  
+  v_horas_tmp INTEGER;
+  v_minutos_tmp INTEGER;
+  v_am_pm TEXT;
+BEGIN
+  -- Limpiar slots anteriores con WHERE para eludir la restricción "Safe Updates"
+  DELETE FROM public.configuracion_horarios WHERE id IS NOT NULL;
+  
+  v_actual := v_inicio;
+  
+  WHILE (v_actual + p_duracion_minutos) <= v_fin LOOP
+    v_horas_tmp := v_actual / 60;
+    v_minutos_tmp := v_actual % 60;
+    IF v_horas_tmp >= 12 THEN
+      v_am_pm := 'PM';
+      IF v_horas_tmp > 12 THEN v_horas_tmp := v_horas_tmp - 12; END IF;
+    ELSE
+      v_am_pm := 'AM';
+      IF v_horas_tmp = 0 THEN v_horas_tmp := 12; END IF;
+    END IF;
+    v_slot_inicio := v_horas_tmp::TEXT || ':' || lpad(v_minutos_tmp::TEXT, 2, '0') || ' ' || v_am_pm;
+    
+    v_horas_tmp := (v_actual + p_duracion_minutos) / 60;
+    v_minutos_tmp := (v_actual + p_duracion_minutos) % 60;
+    IF v_horas_tmp >= 12 THEN
+      v_am_pm := 'PM';
+      IF v_horas_tmp > 12 THEN v_horas_tmp := v_horas_tmp - 12; END IF;
+    ELSE
+      v_am_pm := 'AM';
+      IF v_horas_tmp = 0 THEN v_horas_tmp := 12; END IF;
+    END IF;
+    v_slot_fin := v_horas_tmp::TEXT || ':' || lpad(v_minutos_tmp::TEXT, 2, '0') || ' ' || v_am_pm;
+    
+    v_slot_completo := v_slot_inicio || ' - ' || v_slot_fin;
+    
+    INSERT INTO public.configuracion_horarios (slot, activo, orden)
+    VALUES (v_slot_completo, TRUE, v_orden);
+    
+    v_orden := v_orden + 1;
+    v_actual := v_actual + p_duracion_minutos;
+  END LOOP;
+END;
+$$;
+
+-- 1.5 Crear trigger para automatizar el cambio de slots
+CREATE OR REPLACE FUNCTION public.trg_actualizar_duracion_slots()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  IF NEW.id = 'duracion_reserva_minutos' AND (OLD.valor IS NULL OR NEW.valor <> OLD.valor) THEN
+    PERFORM public.generar_slots(NEW.valor::INTEGER);
+  END IF;
+  RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS trg_config_duracion_slots ON public.configuracion_general;
+CREATE TRIGGER trg_config_duracion_slots
+  AFTER INSERT OR UPDATE ON public.configuracion_general
+  FOR EACH ROW
+  EXECUTE FUNCTION public.trg_actualizar_duracion_slots();
+
 -- 2. Corregir get_disponibilidad: borrar vieja e implementar con soporte capacidad/aforo por superposición de tiempo
 DROP FUNCTION IF EXISTS public.get_disponibilidad(p_fecha DATE);
 DROP FUNCTION IF EXISTS public.get_disponibilidad(DATE);
@@ -159,7 +239,7 @@ CREATE POLICY "anon_insert_reservas" ON public.reservas
     nombre    IS NOT NULL AND length(trim(nombre))    > 0 AND
     email     IS NOT NULL AND length(trim(email))     > 0 AND
     telefono  IS NOT NULL AND length(trim(telefono))  > 0 AND
-    fecha     IS NOT NULL AND fecha >= CURRENT_DATE   AND
+    fecha     IS NOT NULL AND fecha >= (CURRENT_DATE - 1) AND
     hora_slot IS NOT NULL AND length(trim(hora_slot)) > 0 AND
     personas  >= 1 AND personas <= 20
   );
