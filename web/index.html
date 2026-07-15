@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sweet Studio — Postres y Recuerdos</title>
+  <link rel="stylesheet" href="styles.css?v=2.0" />
+  <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="logo" id="navLogo">
+        <img src="assets/logo.png" alt="DulceColor" class="logo-img" />
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#inicio">Inicio</a>
+        <a href="#experiencia">Experiencias</a>
+        <a href="#menu">Menú</a>
+        <a href="#reservaciones">Reservas</a>
+        <a href="#nosotros">Opiniones</a>
+        <a href="#contacto">Ubicación</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="navbar-drips">
+        <svg viewBox="0 0 1440 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M0,0 L1440,0 L1440,35 C1410,35 1395,85 1375,85 C1355,85 1340,30 1310,30 C1280,30 1265,110 1240,110 C1215,110 1200,45 1170,45 C1140,45 1125,75 1105,75 C1085,75 1070,25 1040,25 C1010,25 995,95 970,95 C945,95 930,40 900,40 C870,40 855,120 830,120 C805,120 790,30 760,30 C730,30 715,80 695,80 C675,80 660,20 630,20 C600,20 585,105 560,105 C535,105 520,35 490,35 C460,35 445,65 425,65 C405,65 390,15 360,15 C330,15 315,115 290,115 C265,115 250,45 220,45 C190,45 175,85 155,85 C135,85 120,25 90,25 C60,25 45,70 25,70 C10,70 0,40 0,40 Z">
+          </path>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="inicio">
+    <!-- Background decorative pattern -->
+    <img src="assets/patron.png" class="hero-bg-pattern" alt="Patrón decorativo DulceColor" />
+
+    <div class="hero-container">
+      <div class="hero-content fade-up">
+
+        <h1 class="hero-title">
+          Disfruta, comparte<br />
+          y crea momentos<br />
+          <em>deliciosos.</em>
+        </h1>
+        <p class="hero-subtitle">
+          Un rincón pensado para los amantes de la buena repostería.
+          Disfruta de nuestros postres artesanales en un ambiente lleno de magia y calidez.
+        </p>
+        <div class="hero-buttons">
+          <a href="#reservaciones" class="btn btn-primary btn-lg">Reservar espacio</a>
+          <a href="#menu" class="btn btn-outline btn-lg">Ver menú</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><strong>500+</strong><span>Visitas al mes</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><strong>15+</strong><span>Especialidades</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><strong>4.9★</strong><span>Calificación</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <!-- Main Product Image -->
+        <img src="assets/platillo.png" alt="Platillo exquisito DulceColor" class="hero-dish-img" />
+      </div>
+    </div>
+
+    <!-- Liquid Dripping Cream Effect Background Divider (Pink to White) -->
+    <div class="hero-drips">
+      <svg viewBox="0 0 1440 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M0,0 L1440,0 L1440,35 C1410,35 1395,85 1375,85 C1355,85 1340,30 1310,30 C1280,30 1265,110 1240,110 C1215,110 1200,45 1170,45 C1140,45 1125,75 1105,75 C1085,75 1070,25 1040,25 C1010,25 995,95 970,95 C945,95 930,40 900,40 C870,40 855,120 830,120 C805,120 790,30 760,30 C730,30 715,80 695,80 C675,80 660,20 630,20 C600,20 585,105 560,105 C535,105 520,35 490,35 C460,35 445,65 425,65 C405,65 390,15 360,15 C330,15 315,115 290,115 C265,115 250,45 220,45 C190,45 175,85 155,85 C135,85 120,25 90,25 C60,25 45,70 25,70 C10,70 0,40 0,40 Z"
+          fill="var(--pink-pale)" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===================== EXPERIENCIA ===================== -->
+  <section class="experiencia" id="experiencia">
+    <div class="container">
+      <div class="section-label fade-up">Experiencias</div>
+      <h2 class="section-title fade-up">Una propuesta que <em>combina</em> lo mejor</h2>
+      <p class="section-sub fade-up">Diseñado para parejas, familias y amigos que buscan algo más que una simple salida.
+      </p>
+
+      <div class="exp-grid exp-three-cards">
+        <!-- Card 1: Comida Rica -->
+        <div class="exp-card exp-card-arch exp-card-coral fade-up">
+          <h3>Comida rica</h3>
+          <p>Waffles calientes, crepas personalizadas y postres preparados al instante para deleitarte.</p>
+          <div class="exp-visual-container">
+            <div class="exp-circle-bg"></div>
+            <img src="assets/platillo.png" alt="Comida rica" class="exp-card-img" />
+          </div>
+        </div>
+
+        <!-- Card 2: Momentos Inolvidables -->
+        <div class="exp-card exp-card-arch exp-card-blue fade-up" style="animation-delay:.1s">
+          <h3>Momentos inolvidables</h3>
+          <p>Comparte risas y crea grandes recuerdos en compañía de tus personas favoritas.</p>
+          <div class="exp-visual-container">
+            <div class="exp-circle-bg"></div>
+            <img src="assets/platillo.png" alt="Momentos inolvidables" class="exp-card-img" />
+          </div>
+        </div>
+
+        <!-- Card 3: Pintar Figuritas -->
+        <div class="exp-card exp-card-arch exp-card-magenta fade-up" style="animation-delay:.2s">
+          <h3>Pintar figuritas</h3>
+          <p>Elige tu figura favorita, píntala a tu gusto y llévate un recuerdo único hecho por ti.</p>
+          <div class="exp-visual-container">
+            <div class="exp-circle-bg"></div>
+            <img src="assets/platillo.png" alt="Pintar figuritas" class="exp-card-img" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dripping Cream Section Bottom Divider (White to Pink) -->
+    <div class="section-drips-bottom">
+      <svg viewBox="0 0 1440 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M0,0 L1440,0 L1440,35 C1410,35 1395,85 1375,85 C1355,85 1340,30 1310,30 C1280,30 1265,110 1240,110 C1215,110 1200,45 1170,45 C1140,45 1125,75 1105,75 C1085,75 1070,25 1040,25 C1010,25 995,95 970,95 C945,95 930,40 900,40 C870,40 855,120 830,120 C805,120 790,30 760,30 C730,30 715,80 695,80 C675,80 660,20 630,20 C600,20 585,105 560,105 C535,105 520,35 490,35 C460,35 445,65 425,65 C405,65 390,15 360,15 C330,15 315,115 290,115 C265,115 250,45 220,45 C190,45 175,85 155,85 C135,85 120,25 90,25 C60,25 45,70 25,70 C10,70 0,40 0,40 Z"
+          fill="#ffffff" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===================== MENÚ ===================== -->
+  <section class="menu-section" id="menu">
+    <div class="container">
+      <div class="section-label fade-up">Delicias dulces</div>
+      <h2 class="section-title fade-up">Nuestro <em>menú</em> favorito</h2>
+      <p class="section-sub fade-up">Ingredientes frescos, recetas con amor. Cada bocado es una experiencia.</p>
+
+      <!-- Carousel Wrapper -->
+      <div class="menu-carousel-wrapper fade-up">
+        <div class="carousel-stage">
+          <div class="carousel-track" id="carouselTrack">
+            <!-- Dynamically populated plates -->
+          </div>
+        </div>
+
+        <!-- Arrow Buttons Container -->
+        <div class="carousel-controls">
+          <button class="carousel-nav-btn prev-btn" aria-label="Anterior">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="carousel-nav-btn next-btn" aria-label="Siguiente">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Active Dish Details -->
+      <div class="carousel-details fade-up" id="carouselDetails">
+        <span class="details-category" id="detailsCategory">Postres</span>
+        <h3 class="details-name" id="detailsName">Fresas con crema</h3>
+        <p class="details-desc" id="detailsDesc">Fresas frescas bañadas en crema batida artesanal.</p>
+        <span class="details-price" id="detailsPrice">₡3.200</span>
+      </div>
+    </div>
+
+    <!-- Dripping Cream Divider (Pink to White) -->
+    <div class="section-drips-bottom">
+      <svg viewBox="0 0 1440 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M0,0 L1440,0 L1440,35 C1410,35 1395,85 1375,85 C1355,85 1340,30 1310,30 C1280,30 1265,110 1240,110 C1215,110 1200,45 1170,45 C1140,45 1125,75 1105,75 C1085,75 1070,25 1040,25 C1010,25 995,95 970,95 C945,95 930,40 900,40 C870,40 855,120 830,120 C805,120 790,30 760,30 C730,30 715,80 695,80 C675,80 660,20 630,20 C600,20 585,105 560,105 C535,105 520,35 490,35 C460,35 445,65 425,65 C405,65 390,15 360,15 C330,15 315,115 290,115 C265,115 250,45 220,45 C190,45 175,85 155,85 C135,85 120,25 90,25 C60,25 45,70 25,70 C10,70 0,40 0,40 Z"
+          fill="var(--pink-pale)" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===================== RESERVACIONES ===================== -->
+  <section class="reservaciones-section" id="reservaciones">
+    <div class="container">
+      <div class="section-label fade-up">Agenda tu visita</div>
+      <h2 class="section-title fade-up">Reserva tu <em>espacio</em></h2>
+      <p class="section-sub fade-up" style="margin-bottom: 3.5rem;">Grupos, cumpleaños, citas o simplemente una tarde
+        diferente. Tenemos espacio para ti.</p>
+
+      <div class="booking-card fade-up">
+        <!-- STEP 1: Date & Time Selection -->
+        <div class="booking-step active" id="bookingStep1">
+          <div class="booking-step-header">
+            <span class="booking-breadcrumb">Servicios &gt; Reserva</span>
+            <div class="booking-step-top">
+              <h3 class="booking-step-title">Selecciona Fecha y Hora</h3>
+              <span class="booking-help"><span class="help-icon">?</span> Ayuda</span>
+            </div>
+          </div>
+          
+          <div class="booking-step-content-grid">
+            <!-- Left side: Calendar & Scheduling -->
+            <div class="booking-left-pane">
+              <div class="calendar-widget">
+                <div class="calendar-header">
+                  <span class="calendar-month-year" id="calendarMonthYear">Octubre 2026</span>
+                  <div class="calendar-nav">
+                    <button type="button" class="calendar-nav-btn" id="prevMonthBtn" aria-label="Mes anterior">&lt;</button>
+                    <button type="button" class="calendar-nav-btn" id="nextMonthBtn" aria-label="Siguiente mes">&gt;</button>
+                  </div>
+                </div>
+                <div class="calendar-weekdays">
+                  <div>Lu</div><div>Ma</div><div>Mi</div><div>Ju</div><div>Vi</div><div>Sá</div><div>Do</div>
+                </div>
+                <div class="calendar-days" id="calendarDays">
+                  <!-- Dynamic days -->
+                </div>
+              </div>
+              
+              <!-- Scheduling Box -->
+              <div class="scheduling-box">
+                <h4>Programación</h4>
+                <div class="scheduling-time-pill">
+                  <span class="clock-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                  </span>
+                  <span id="schedulingDateTimeText">16.10.2026 9:15 AM - 9:30 AM</span>
+                </div>
+                <div class="scheduling-notification">
+                  <div class="notif-left">
+                    <div class="paperplane-icon">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                      </svg>
+                    </div>
+                    <div class="notif-text">
+                      <strong>Notificación</strong>
+                      <span>Avisarme 1 día antes</span>
+                    </div>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="notifyCheckbox" checked />
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Right side: Time Picker & Navigation -->
+            <div class="booking-right-pane">
+              <h4 class="pane-title">Elige una hora</h4>
+              <div class="time-slots-list" id="timeSlotsList">
+                <!-- Dynamic slots -->
+              </div>
+              <div class="booking-step-actions">
+                <button type="button" class="btn-link-back" style="visibility: hidden;">Atrás</button>
+                <button type="button" class="btn btn-primary" id="step1NextBtn">Siguiente paso</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: Details Form -->
+        <div class="booking-step" id="bookingStep2">
+          <div class="booking-step-header">
+            <span class="booking-breadcrumb">Servicios &gt; Reserva</span>
+            <div class="booking-step-top">
+              <h3 class="booking-step-title">Tus Datos de Reserva</h3>
+            </div>
+          </div>
+          
+          <div class="booking-step-content-grid">
+            <!-- Left side: Summary -->
+            <div class="booking-left-pane summary-pane">
+              <div class="summary-card">
+                <div>
+                  <h4>Resumen de tu Visita</h4>
+                  <div class="summary-details">
+                    <div class="summary-item">
+                      <span class="summary-label">Fecha seleccionada:</span>
+                      <strong id="summaryDateText">-</strong>
+                    </div>
+                    <div class="summary-item">
+                      <span class="summary-label">Hora:</span>
+                      <strong id="summaryTimeText">-</strong>
+                    </div>
+                    <div class="summary-item">
+                      <span class="summary-label">Lugar:</span>
+                      <strong>Sweet Studio, Barrio Escalante</strong>
+                    </div>
+                    <div class="summary-item">
+                      <span class="summary-label">Ubicación:</span>
+                      <span>San José, Costa Rica</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="summary-decor">
+                  <img src="assets/fresa.png" alt="Fresa decorativa" class="summary-decor-img" />
+                </div>
+              </div>
+            </div>
+            
+            <!-- Right side: Form inputs -->
+            <div class="booking-right-pane">
+              <form class="reserva-form" id="formReservaCompleta" novalidate>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="reservaNombre">Nombre completo</label>
+                    <input type="text" id="reservaNombre" placeholder="Tu nombre completo" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="reservaEmail">Correo electrónico</label>
+                    <input type="email" id="reservaEmail" placeholder="tu@correo.com" required />
+                  </div>
+                </div>
+                
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="reservaTelefono">Teléfono / WhatsApp</label>
+                    <input type="tel" id="reservaTelefono" placeholder="+506 8888 8888" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="reservaPersonas">Cantidad de personas</label>
+                    <input type="number" id="reservaPersonas" min="1" max="20" value="2" required />
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="reservaComentarios">Comentarios adicionales</label>
+                  <textarea id="reservaComentarios" rows="3" placeholder="¿Alguna petición especial? Cuéntanos..." style="height: 80px; resize: none;"></textarea>
+                </div>
+                
+                <div class="booking-step-actions">
+                  <button type="button" class="btn-link-back" id="step2BackBtn">Atrás</button>
+                  <button type="submit" class="btn btn-primary" id="step2SubmitBtn">Confirmar Reserva</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dripping Cream Divider (White to Pink) -->
+    <div class="section-drips-bottom">
+      <svg viewBox="0 0 1440 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M0,0 L1440,0 L1440,35 C1410,35 1395,85 1375,85 C1355,85 1340,30 1310,30 C1280,30 1265,110 1240,110 C1215,110 1200,45 1170,45 C1140,45 1125,75 1105,75 C1085,75 1070,25 1040,25 C1010,25 995,95 970,95 C945,95 930,40 900,40 C870,40 855,120 830,120 C805,120 790,30 760,30 C730,30 715,80 695,80 C675,80 660,20 630,20 C600,20 585,105 560,105 C535,105 520,35 490,35 C460,35 445,65 425,65 C405,65 390,15 360,15 C330,15 315,115 290,115 C265,115 250,45 220,45 C190,45 175,85 155,85 C135,85 120,25 90,25 C60,25 45,70 25,70 C10,70 0,40 0,40 Z"
+          fill="#ffffff" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===================== TESTIMONIOS ===================== -->
+  <section class="testimonios-section" id="nosotros">
+    <div class="container">
+      <div class="section-label fade-up">Opiniones</div>
+      <h2 class="section-title fade-up">Lo que dicen nuestros <em>visitantes</em></h2>
+
+      <div class="testimonios-grid">
+        <!-- Card 1 -->
+        <div class="test-card fade-up">
+          <div class="test-header">
+            <img
+              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Marcela R." class="test-avatar" />
+            <div class="test-user-info">
+              <strong class="test-name">Marcela R.</strong>
+              <span class="test-role">Mamá de familia</span>
+            </div>
+          </div>
+          <p class="test-text">"Una tarde increíble con mis amigas. Comimos las mejores crepas dulces en un ambiente
+            súper acogedor y estético. ¡Regresamos seguro!"</p>
+          <div class="test-date">29 de Agosto, 2024</div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="test-card fade-up" style="animation-delay:.1s">
+          <div class="test-header">
+            <img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Andrés V." class="test-avatar" />
+            <div class="test-user-info">
+              <strong class="test-name">Andrés V.</strong>
+              <span class="test-role">Cliente frecuente</span>
+            </div>
+          </div>
+          <p class="test-text">"Llevé a mi novia para su cumpleaños y quedó encantada con los detalles del lugar. La
+            atención es impecable, el personal sumamente atento y la presentación de los postres es una obra de arte.
+            Recomiendo ampliamente el box para dos."</p>
+          <div class="test-date">12 de Septiembre, 2024</div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="test-card fade-up" style="animation-delay:.2s">
+          <div class="test-header">
+            <img
+              src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Sofía M." class="test-avatar" />
+            <div class="test-user-info">
+              <strong class="test-name">Sofía M.</strong>
+              <span class="test-role">Diseñadora de interiores</span>
+            </div>
+          </div>
+          <p class="test-text">"El mejor café y repostería que he probado. Un lugar hermoso con una estética muy
+            cuidada, ideal para platicar y pasar un buen rato. Cada rincón tiene un detalle encantador y una paleta de
+            colores súper armoniosa."</p>
+          <div class="test-date">3 de Octubre, 2024</div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="test-card fade-up" style="animation-delay:.3s">
+          <div class="test-header">
+            <img
+              src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&h=150&q=80"
+              alt="Carlos T." class="test-avatar" />
+            <div class="test-user-info">
+              <strong class="test-name">Carlos T.</strong>
+              <span class="test-role">Amante del café</span>
+            </div>
+          </div>
+          <p class="test-text">"Los waffles belgas son espectaculares: crujientes por fuera y esponjosos por dentro. Se
+            nota la frescura de los ingredientes artesanales en cada bocado."</p>
+          <div class="test-date">18 de Noviembre, 2024</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dripping Cream Divider (Pink to White) -->
+    <div class="section-drips-bottom">
+      <svg viewBox="0 0 1440 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M0,0 L1440,0 L1440,35 C1410,35 1395,85 1375,85 C1355,85 1340,30 1310,30 C1280,30 1265,110 1240,110 C1215,110 1200,45 1170,45 C1140,45 1125,75 1105,75 C1085,75 1070,25 1040,25 C1010,25 995,95 970,95 C945,95 930,40 900,40 C870,40 855,120 830,120 C805,120 790,30 760,30 C730,30 715,80 695,80 C675,80 660,20 630,20 C600,20 585,105 560,105 C535,105 520,35 490,35 C460,35 445,65 425,65 C405,65 390,15 360,15 C330,15 315,115 290,115 C265,115 250,45 220,45 C190,45 175,85 155,85 C135,85 120,25 90,25 C60,25 45,70 25,70 C10,70 0,40 0,40 Z"
+          fill="var(--pink-pale)" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section class="faq-section">
+    <div class="container">
+      <div class="section-label fade-up">Resolvemos tus dudas</div>
+      <h2 class="section-title fade-up">Preguntas <em>frecuentes</em></h2>
+
+      <div class="faq-list fade-up">
+        <div class="faq-item">
+          <button class="faq-q">¿El material de repostería es de elaboración propia? <span
+              class="faq-icon">+</span></button>
+          <div class="faq-a">
+            <p>Sí. Todos nuestros postres se elaboran artesanalmente cada mañana en nuestro taller, utilizando
+              ingredientes de la más alta calidad.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">¿Puedo ir sin reservación? <span class="faq-icon">+</span></button>
+          <div class="faq-a">
+            <p>Aceptamos visitas espontáneas sujetas a disponibilidad, pero recomendamos reservar con anticipación para
+              garantizar tu mesa, especialmente los fines de semana.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">¿Cuánto tiempo dura la reserva de una mesa? <span class="faq-icon">+</span></button>
+          <div class="faq-a">
+            <p>La reserva garantiza tu espacio durante 1.5 horas, ideal para disfrutar sin prisas de nuestra repostería
+              y bebidas.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">¿Hacen eventos privados y cumpleaños? <span class="faq-icon">+</span></button>
+          <div class="faq-a">
+            <p>¡Claro! Podemos organizar eventos privados para grupos. Contáctanos a través de nuestro formulario o
+              WhatsApp y diseñamos la experiencia perfecta para tu celebración.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dripping Cream Divider (White to Pink) -->
+    <div class="section-drips-bottom">
+      <svg viewBox="0 0 1440 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M0,0 L1440,0 L1440,35 C1410,35 1395,85 1375,85 C1355,85 1340,30 1310,30 C1280,30 1265,110 1240,110 C1215,110 1200,45 1170,45 C1140,45 1125,75 1105,75 C1085,75 1070,25 1040,25 C1010,25 995,95 970,95 C945,95 930,40 900,40 C870,40 855,120 830,120 C805,120 790,30 760,30 C730,30 715,80 695,80 C675,80 660,20 630,20 C600,20 585,105 560,105 C535,105 520,35 490,35 C460,35 445,65 425,65 C405,65 390,15 360,15 C330,15 315,115 290,115 C265,115 250,45 220,45 C190,45 175,85 155,85 C135,85 120,25 90,25 C60,25 45,70 25,70 C10,70 0,40 0,40 Z"
+          fill="#ffffff" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===================== UBICACIÓN ===================== -->
+  <section class="contacto-section" id="contacto">
+    <div class="map-fullwidth">
+      <!-- Dark overlay panel covering the entire area with centered details and buttons -->
+      <div class="map-overlay-panel">
+        <div class="map-overlay-content">
+          <span class="map-overlay-badge">Ubicación</span>
+          <h3 class="map-overlay-title">Sweet <em>Studio</em></h3>
+          <p class="map-overlay-text">Visítanos en el corazón de Barrio Escalante. Un espacio diseñado para disfrutar de
+            los mejores postres artesanales en un ambiente mágico y relajado.</p>
+
+          <div class="map-overlay-address">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            <span>Avenida 11, Calle 33, Barrio Escalante, San José, Costa Rica</span>
+          </div>
+
+          <div class="map-overlay-buttons">
+            <button class="btn btn-primary" id="btnVerUbicacion">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;">
+                <circle cx="12" cy="12" r="10" />
+                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+              </svg>
+              Ver ubicación
+            </button>
+            <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;">
+                <polygon points="3 11 22 2 13 21 11 13 3 11" />
+              </svg>
+              Cómo llegar
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Real interactive Google Maps iframe (acts as backdrop on page) -->
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.9868779919427!2d-84.0673323!3d9.9350417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f92df5fd4739eb3%3A0xa9b33a525f0e9d6d!2sBarrio%20Escalante%2C%20San%20Jos%C3%A9!5e0!3m2!1ses-419!2scr!4v1710000000000"
+        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <!-- Dripping Cream Divider at top of footer -->
+    <div class="footer-drips">
+      <svg viewBox="0 0 1440 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M0,0 L1440,0 L1440,35 C1410,35 1395,85 1375,85 C1355,85 1340,30 1310,30 C1280,30 1265,110 1240,110 C1215,110 1200,45 1170,45 C1140,45 1125,75 1105,75 C1085,75 1070,25 1040,25 C1010,25 995,95 970,95 C945,95 930,40 900,40 C870,40 855,120 830,120 C805,120 790,30 760,30 C730,30 715,80 695,80 C675,80 660,20 630,20 C600,20 585,105 560,105 C535,105 520,35 490,35 C460,35 445,65 425,65 C405,65 390,15 360,15 C330,15 315,115 290,115 C265,115 250,45 220,45 C190,45 175,85 155,85 C135,85 120,25 90,25 C60,25 45,70 25,70 C10,70 0,40 0,40 Z"
+          fill="var(--text-dark)" />
+      </svg>
+    </div>
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="logo logo-white">
+          <img src="assets/fresa.png" alt="DulceColor" class="footer-logo-img" />
+        </a>
+        <p>Donde los postres y la creatividad se encuentran. Un lugar para disfrutar y recordar.</p>
+        <div class="social-links">
+          <a href="#" class="social-btn" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+            </svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+            </svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="TikTok">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>Explorar</h4>
+        <a href="#inicio">Inicio</a>
+        <a href="#experiencia">Experiencias</a>
+        <a href="#menu">Menú</a>
+        <a href="#reservaciones">Reservas</a>
+        <a href="#nosotros">Opiniones</a>
+        <a href="#contacto">Ubicación</a>
+      </div>
+      <div class="footer-links">
+        <h4>Horarios</h4>
+        <span class="footer-hour-item">Lunes a Viernes<br /><strong>9:00 AM - 8:00 PM</strong></span>
+        <span class="footer-hour-item">Sábado<br /><strong>10:00 AM - 9:00 PM</strong></span>
+        <span class="footer-hour-item">Domingo<br /><strong>10:00 AM - 8:00 PM</strong></span>
+      </div>
+      <div class="footer-links">
+        <h4>Contacto</h4>
+        <p class="footer-contact-item">Avenida 11, Calle 33, Barrio Escalante, San José</p>
+        <p class="footer-contact-item">hola@sweetstudio.cr</p>
+        <p class="footer-contact-item">+506 2234 5678</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Sweet Studio. Todos los derechos reservados.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Términos y condiciones</a>
+        <span>•</span>
+        <a href="#">Política de privacidad</a>
+        <span>•</span>
+        <a href="#">Política de cookies</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================== MODAL ===================== -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-card">
+      <div class="modal-icon">
+        <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="var(--pink-main)" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+          <polyline points="22 4 12 14.01 9 11.01" />
+        </svg>
+      </div>
+      <h3 id="modalTitle">¡Solicitud enviada!</h3>
+      <p id="modalMsg">Tu solicitud fue enviada correctamente. Nos pondremos en contacto contigo muy pronto.</p>
+      <button class="btn btn-primary" onclick="closeModal()">Perfecto, gracias</button>
+    </div>
+  </div>
+
+  <!-- ===================== MAP MODAL ===================== -->
+  <div class="modal-overlay" id="mapModalOverlay">
+    <div class="modal-card map-modal-card">
+      <button class="modal-close-btn" onclick="closeMapModal()" aria-label="Cerrar mapa">×</button>
+      <div class="map-modal-container">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.9868779919427!2d-84.0673323!3d9.9350417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f92df5fd4739eb3%3A0xa9b33a525f0e9d6d!2sBarrio%20Escalante%2C%20San%20Jos%C3%A9!5e0!3m2!1ses-419!2scr!4v1710000000000"
+          width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="env.js"></script>
+  <script src="supabase.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>

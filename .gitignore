@@ -1,0 +1,27 @@
+# ============================================
+# .gitignore — Sweet Studio
+# ============================================
+
+# Archivos de entorno con credenciales reales — NUNCA commitear
+env.js
+web/env.js
+sistema/env.js
+
+# Cloudflare / Node
+node_modules/
+.wrangler/
+dist/
+.dev.vars
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
