@@ -3,41 +3,79 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sweet Studio — Acceso</title>
+  <title>DulceColor — Acceso</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--pink:#E8658A;--pink-deep:#C94070;--pink-pale:#FFF0F4;--text-dark:#2A1520;--text-mid:#6B4055;--text-light:#B09AA5;--border:#eed8e4}
-    body{font-family:'DM Sans',sans-serif;background:#f9f4f6;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem}
+    :root{
+      --pink:#E8658A;--pink-deep:#C94070;--pink-pale:#FFF0F4;
+      --text-dark:#111115;--text-mid:#4a5568;--text-light:#a0aec0;
+      --border:#eed8e4;--white:#ffffff;--bg:#fcf9fa;
+      --radius-lg:22px;
+      --shadow:0 4px 20px rgba(0, 0, 0, 0.02);
+      --t:.2s ease;
+    }
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem}
     .wrap{width:100%;max-width:360px;animation:up .35s ease}
     @keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-    .brand{text-align:center;margin-bottom:2.25rem}
-    .icon{width:48px;height:48px;background:linear-gradient(135deg,var(--pink),var(--pink-deep));border-radius:13px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:.9rem}
-    .icon svg{color:#fff}
-    h1{font-size:1.2rem;font-weight:700;color:var(--text-dark);margin-bottom:.2rem}
-    .sub{font-size:.82rem;color:var(--text-light)}
-    .card{background:#fff;border-radius:14px;padding:1.75rem;box-shadow:0 2px 18px rgba(42,21,32,.07)}
-    .field{margin-bottom:1.1rem}
-    .field label{display:block;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-mid);margin-bottom:.4rem}
-    .field input{width:100%;padding:.78rem 1rem;border:1.5px solid var(--border);border-radius:8px;font-size:.93rem;font-family:inherit;color:var(--text-dark);background:#fff;outline:none;transition:border-color .2s,box-shadow .2s}
-    .field input:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(232,101,138,.1)}
-    .btn{width:100%;padding:.85rem;background:linear-gradient(135deg,var(--pink),var(--pink-deep));color:#fff;border:none;border-radius:8px;font-size:.93rem;font-weight:600;font-family:inherit;cursor:pointer;transition:opacity .2s,transform .15s;margin-top:.35rem}
-    .btn:hover{opacity:.88;transform:translateY(-1px)}
+    
+    .brand{text-align:center;margin-bottom:2rem}
+    .brand-logo-img{max-width:150px;height:auto;margin-bottom:0.8rem;object-fit:contain}
+    .sub{font-size:.84rem;color:var(--text-light);font-weight:500}
+    
+    .card{
+      background:var(--white);
+      border:1px solid var(--border);
+      border-radius:var(--radius-lg);
+      padding:2.2rem 2rem;
+      box-shadow:var(--shadow);
+    }
+    .field{margin-bottom:1.25rem}
+    .field label{display:block;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-mid);margin-bottom:.45rem}
+    .field input{
+      width:100%;
+      padding:.78rem 1.2rem;
+      border:1.5px solid var(--border);
+      border-radius:50px; /* Inputs redondeados capsulares */
+      font-size:.9rem;
+      font-family:inherit;
+      color:var(--text-dark);
+      background:var(--white);
+      outline:none;
+      transition:all var(--t);
+    }
+    .field input:focus{
+      border-color:var(--pink);
+    }
+    .btn{
+      width:100%;
+      padding:.85rem;
+      background:linear-gradient(135deg,var(--pink),var(--pink-deep));
+      color:var(--white);
+      border:none;
+      border-radius:50px; /* Botón capsular */
+      font-size:.92rem;
+      font-weight:600;
+      font-family:inherit;
+      cursor:pointer;
+      transition:all var(--t);
+      margin-top:.4rem;
+    }
+    .btn:hover{
+      opacity:.9;
+      transform:translateY(-1px);
+    }
     .btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
-    .error{display:none;background:#fff0f0;border:1px solid #ffc9c9;color:#c0392b;border-radius:8px;padding:.65rem 1rem;font-size:.83rem;margin-bottom:.9rem;text-align:center}
+    
+    .error{display:none;background:#fff0f0;border:1px solid #ffc9c9;color:#c0392b;border-radius:50px;padding:.65rem 1rem;font-size:.82rem;margin-bottom:1.1rem;text-align:center;font-weight:500}
     .error.show{display:block}
   </style>
 </head>
 <body>
 <div class="wrap">
   <div class="brand">
-    <div class="icon">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-      </svg>
-    </div>
-    <h1>Sweet Studio</h1>
+    <img src="../web/assets/logo.png" alt="DulceColor" class="brand-logo-img" />
     <p class="sub">Panel de administración</p>
   </div>
   <div class="card">
