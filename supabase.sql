@@ -148,7 +148,7 @@ RETURNS TABLE (
   cupos_restantes INTEGER
 )
 LANGUAGE plpgsql
-SECURITY INVOKER
+SECURITY DEFINER
 SET search_path = public
 AS $$
 DECLARE
