@@ -324,6 +324,7 @@ selectedDate.setHours(0,0,0,0);
 // Empezamos por defecto mañana para evitar reservas en el pasado
 selectedDate.setDate(selectedDate.getDate() + 1);
 let selectedTimeSlot = "9:15 AM - 9:30 AM";
+let activeSlotsList = [];
 
 const timeSlots = [
   "9:00 AM - 9:15 AM",
@@ -441,11 +442,20 @@ async function loadSlotsForDate(fecha) {
     container.innerHTML = '<p style="color:var(--text-mid);font-size:.88rem;padding:.5rem 0">No hay horarios para este día.</p>';
     return;
   }
-  slots.forEach(({ slot, disponible }) => {
+  activeSlotsList = slots;
+  slots.forEach(({ slot, disponible, cupos_restantes }) => {
     const div = document.createElement('div');
     div.className = 'time-slot' + (disponible ? '' : ' occupied');
     if (slot === selectedTimeSlot && disponible) div.classList.add('selected');
-    div.innerHTML = `<div class="radio-circle"></div><span>${slot}</span>${!disponible ? '<span style="margin-left:auto;font-size:.72rem;font-weight:600;color:var(--text-light)">Ocupado</span>' : ''}`;
+    
+    let statusHTML = '';
+    if (!disponible) {
+      statusHTML = '<span style="margin-left:auto;font-size:.72rem;font-weight:600;color:var(--text-light)">Ocupado</span>';
+    } else {
+      statusHTML = `<span style="margin-left:auto;font-size:.72rem;color:var(--text-mid);font-weight:500">Quedan ${cupos_restantes} cupos</span>`;
+    }
+
+    div.innerHTML = `<div class="radio-circle"></div><span>${slot}</span>${statusHTML}`;
     if (disponible) div.addEventListener('click', () => {
       selectedTimeSlot = slot;
       document.querySelectorAll('.time-slot').forEach(el => el.classList.remove('selected'));
@@ -550,6 +560,13 @@ function initBookingWizard() {
 
       if (!nombre || !email || !tel) {
         alert('Por favor, completa los campos requeridos (Nombre, Correo y Teléfono).');
+        return;
+      }
+
+      // Validar capacidad/cupos disponibles antes de enviar
+      const slotData = activeSlotsList.find(s => s.slot === selectedTimeSlot);
+      if (slotData && personas > slotData.cupos_restantes) {
+        alert(`Lo sentimos, el horario seleccionado solo cuenta con ${slotData.cupos_restantes} cupos libres para esta fecha y estás intentando reservar para ${personas} personas.`);
         return;
       }
 

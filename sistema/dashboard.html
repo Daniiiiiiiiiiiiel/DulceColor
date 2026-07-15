@@ -10,6 +10,9 @@
 </head>
 <body>
 
+<!-- MOBILE OVERLAY -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
@@ -51,9 +54,14 @@
 <div class="main-content">
   <!-- Topbar -->
   <div class="topbar">
-    <div class="topbar-left">
-      <h2 id="topbarTitle">Reservas</h2>
-      <p id="topbarSub">Gestiona todas las reservas del estudio</p>
+    <div class="topbar-left-wrap">
+      <button class="btn-menu-toggle" id="btnMenuToggle" aria-label="Abrir menú">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="topbar-left">
+        <h2 id="topbarTitle">Reservas</h2>
+        <p id="topbarSub">Gestiona todas las reservas del estudio</p>
+      </div>
     </div>
     <div class="topbar-right">
       <span class="badge-status">Conectado</span>
@@ -85,7 +93,7 @@
         <input type="date" class="filter-select" id="filterFecha"/>
       </div>
       <div class="table-wrap">
-        <table>
+        <table class="responsive-table">
           <thead><tr>
             <th>Nombre</th><th>Contacto</th><th>Fecha</th><th>Hora</th>
             <th>Personas</th><th>Estado</th><th>Recibido</th><th>Acciones</th>
@@ -100,11 +108,14 @@
   <div class="page" id="page-horarios">
     <div class="panel-card">
       <div class="panel-header">
-        <div><h3>Gestión de Horarios</h3><p>Activa o desactiva slots. Los slots inactivos no aparecerán en la web.</p></div>
+        <div><h3>Gestión de Horarios</h3><p>Habilita o deshabilita los bloques de atención al cliente. Guarda para aplicar.</p></div>
         <button class="btn-action btn-primary btn-sm" id="btnSaveHorarios">Guardar cambios</button>
       </div>
       <div style="padding:1.5rem">
-        <div class="horarios-list-wrap"><div id="horariosList" class="page-loader"><div class="spinner"></div></div></div>
+        <div id="horariosContainer" class="horarios-grid-layout">
+          <!-- Se renderizan los grupos desde app.js -->
+          <div class="page-loader"><div class="spinner"></div></div>
+        </div>
       </div>
     </div>
   </div>

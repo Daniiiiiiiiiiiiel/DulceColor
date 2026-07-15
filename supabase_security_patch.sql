@@ -13,35 +13,54 @@ AS $$
 BEGIN NEW.updated_at = now(); RETURN NEW; END;
 $$;
 
--- 2. Corregir get_disponibilidad: SECURITY INVOKER + search_path fijo
+-- 1.1 Asegurar columna limite_personas en configuracion_horarios
+ALTER TABLE public.configuracion_horarios ADD COLUMN IF NOT EXISTS limite_personas INTEGER NOT NULL DEFAULT 4;
+
+-- 2. Corregir get_disponibilidad: SECURITY INVOKER + search_path fijo + soporte capacidad/cupos
 CREATE OR REPLACE FUNCTION public.get_disponibilidad(p_fecha DATE)
-RETURNS TABLE (slot TEXT, disponible BOOLEAN, motivo TEXT)
+RETURNS TABLE (
+  slot TEXT,
+  disponible BOOLEAN,
+  motivo TEXT,
+  personas_reservadas INTEGER,
+  limite_personas INTEGER,
+  cupos_restantes INTEGER
+)
 LANGUAGE plpgsql
 SECURITY INVOKER
 SET search_path = public
 AS $$
 BEGIN
   RETURN QUERY
-  SELECT h.slot,
+  SELECT 
+    h.slot,
     CASE
       WHEN h.activo = FALSE THEN FALSE
       WHEN b.id IS NOT NULL THEN FALSE
-      WHEN r.id IS NOT NULL THEN FALSE
+      WHEN COALESCE(r.total_personas, 0) >= h.limite_personas THEN FALSE
       ELSE TRUE
     END,
     CASE
       WHEN h.activo = FALSE THEN 'horario_inactivo'
       WHEN b.id IS NOT NULL THEN 'bloqueado'
-      WHEN r.id IS NOT NULL THEN 'reservado'
+      WHEN COALESCE(r.total_personas, 0) >= h.limite_personas THEN 'lleno'
       ELSE NULL
-    END
+    END,
+    COALESCE(r.total_personas, 0)::INTEGER AS personas_reservadas,
+    h.limite_personas::INTEGER AS limite_personas,
+    GREATEST(0, h.limite_personas - COALESCE(r.total_personas, 0))::INTEGER AS cupos_restantes
   FROM public.configuracion_horarios h
   LEFT JOIN public.slots_bloqueados b ON b.hora_slot = h.slot AND b.fecha = p_fecha
-  LEFT JOIN public.reservas r ON r.hora_slot = h.slot AND r.fecha = p_fecha
-    AND r.estado IN ('pendiente','confirmada')
+  LEFT JOIN (
+    SELECT hora_slot, SUM(personas)::INTEGER AS total_personas
+    FROM public.reservas
+    WHERE fecha = p_fecha AND estado IN ('pendiente', 'confirmada')
+    GROUP BY hora_slot
+  ) r ON r.hora_slot = h.slot
   ORDER BY h.orden;
 END;
 $$;
+
 
 -- 3. Reemplazar política INSERT permisiva con validación real
 DROP POLICY IF EXISTS "anon_insert_reservas" ON public.reservas;

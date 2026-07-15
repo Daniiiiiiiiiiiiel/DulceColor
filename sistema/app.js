@@ -91,6 +91,30 @@ document.getElementById('btnLogout').addEventListener('click', async () => {
   }
 });
 
+// Hamburguesa Móvil
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+const btnMenuToggle = document.getElementById('btnMenuToggle');
+
+function closeMobileSidebar() {
+  sidebar.classList.remove('open');
+  sidebarOverlay.classList.remove('open');
+}
+
+if (btnMenuToggle && sidebarOverlay && sidebar) {
+  btnMenuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    sidebarOverlay.classList.toggle('open');
+  });
+  
+  sidebarOverlay.addEventListener('click', closeMobileSidebar);
+  
+  // Cerrar sidebar al hacer click en los botones de navegación en móviles
+  document.querySelectorAll('.nav-item').forEach(btn => {
+    btn.addEventListener('click', closeMobileSidebar);
+  });
+}
+
 /* ===================== RESERVAS ===================== */
 let allReservas = [];
 
@@ -136,14 +160,14 @@ function renderReservas() {
     const fd = new Date(r.fecha+'T00:00:00').toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'});
     const rd = new Date(r.created_at).toLocaleDateString('es-ES',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
     return `<tr>
-      <td><strong>${esc(r.nombre)}</strong></td>
-      <td style="font-size:.82rem;line-height:1.7">${esc(r.email)}<br><span style="color:var(--text-light)">${esc(r.telefono)}</span></td>
-      <td>${fd}</td>
-      <td style="white-space:nowrap;font-size:.84rem">${esc(r.hora_slot)}</td>
-      <td style="text-align:center">${r.personas}</td>
-      <td><span class="badge ${r.estado}">${r.estado}</span></td>
-      <td style="font-size:.78rem;color:var(--text-light)">${rd}</td>
-      <td><div class="actions-cell">
+      <td data-label="Nombre"><strong>${esc(r.nombre)}</strong></td>
+      <td data-label="Contacto" style="font-size:.82rem;line-height:1.7">${esc(r.email)}<br><span style="color:var(--text-light)">${esc(r.telefono)}</span></td>
+      <td data-label="Fecha">${fd}</td>
+      <td data-label="Hora" style="white-space:nowrap;font-size:.84rem">${esc(r.hora_slot)}</td>
+      <td data-label="Personas" style="text-align:center">${r.personas}</td>
+      <td data-label="Estado"><span class="badge ${r.estado}">${r.estado}</span></td>
+      <td data-label="Recibido" style="font-size:.78rem;color:var(--text-light)">${rd}</td>
+      <td data-label="Acciones"><div class="actions-cell">
         ${r.estado==='pendiente' ? `<button class="btn-action btn-confirm btn-sm" onclick="accion('confirmar','${r.id}')">Confirmar</button>` : ''}
         ${r.estado!=='cancelada' ? `<button class="btn-action btn-outline btn-sm" onclick="accion('cancelar','${r.id}')">Cancelar</button>` : ''}
         <button class="btn-action btn-delete btn-sm" onclick="accion('eliminar','${r.id}')">Eliminar</button>
@@ -175,28 +199,90 @@ async function accion(tipo, id) {
 /* ===================== HORARIOS ===================== */
 let horariosData = [];
 
+window.toggleSlotClass = function(cb) {
+  const card = cb.closest('.slot-card-item');
+  const statusLabel = card.querySelector('.slot-card-status');
+  if (cb.checked) {
+    card.classList.remove('inactive');
+    card.classList.add('active');
+    statusLabel.textContent = 'Habilitado';
+  } else {
+    card.classList.remove('active');
+    card.classList.add('inactive');
+    statusLabel.textContent = 'Deshabilitado';
+  }
+};
+
+function renderSlotCell(h) {
+  return `
+    <div class="slot-card-item ${h.activo ? 'active' : 'inactive'}" data-id="${h.id}">
+      <label class="slot-card-click-area">
+        <input type="checkbox" ${h.activo ? 'checked' : ''} onchange="toggleSlotClass(this)" />
+        <span class="slot-card-time">${esc(h.slot)}</span>
+        <span class="slot-card-status">${h.activo ? 'Habilitado' : 'Deshabilitado'}</span>
+      </label>
+      <div class="slot-card-capacity-input-wrap">
+        <span class="capacity-label">Capacidad:</span>
+        <input type="number" class="slot-capacity-input" value="${h.limite_personas || 4}" min="1" max="50" />
+      </div>
+    </div>
+  `;
+}
+
 async function loadHorarios() {
-  const list = document.getElementById('horariosList');
-  list.innerHTML = '<div class="page-loader"><div class="spinner"></div></div>';
+  const container = document.getElementById('horariosContainer');
+  container.innerHTML = '<div class="page-loader"><div class="spinner"></div></div>';
   try {
     horariosData = await sbGet('configuracion_horarios','order=orden.asc');
-    list.innerHTML = horariosData.map(h => `
-      <div class="slot-row ${h.activo?'':'inactive'}">
-        <span class="slot-label">${esc(h.slot)}</span>
-        <label style="display:flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.82rem;color:var(--text-mid)">
-          <input type="checkbox" ${h.activo?'checked':''} data-id="${h.id}" style="accent-color:var(--pink);width:15px;height:15px"/> Activo
-        </label>
-      </div>`).join('');
-  } catch(e) { list.innerHTML = `<p style="color:#e74c3c;padding:1rem">Error: ${e.message}</p>`; }
+    
+    const manana = horariosData.filter(h => h.slot.toLowerCase().includes('am'));
+    const tarde = horariosData.filter(h => h.slot.toLowerCase().includes('pm'));
+
+    let html = '';
+    
+    // Grupo Mañana
+    html += `
+      <div class="horario-grupo">
+        <h4 class="horario-grupo-titulo">🌅 Turno Mañana (AM)</h4>
+        <div class="horario-grupo-grid">
+          ${manana.map(h => renderSlotCell(h)).join('')}
+        </div>
+      </div>
+    `;
+
+    // Grupo Tarde
+    html += `
+      <div class="horario-grupo">
+        <h4 class="horario-grupo-titulo">🌇 Turno Tarde (PM)</h4>
+        <div class="horario-grupo-grid">
+          ${tarde.map(h => renderSlotCell(h)).join('')}
+        </div>
+      </div>
+    `;
+    
+    container.innerHTML = html;
+  } catch(e) { container.innerHTML = `<p style="color:#e74c3c;padding:1rem">Error: ${e.message}</p>`; }
 }
 
 document.getElementById('btnSaveHorarios').addEventListener('click', async () => {
   const btn = document.getElementById('btnSaveHorarios');
   btn.disabled=true; btn.textContent='Guardando...';
   try {
-    const cbs = [...document.querySelectorAll('#horariosList input[type=checkbox]')];
-    await Promise.all(cbs.map(cb => sbPatch('configuracion_horarios', cb.dataset.id, { activo: cb.checked })));
-    cbs.forEach(cb => { const h=horariosData.find(h=>h.id===cb.dataset.id); if(h) h.activo=cb.checked; });
+    const cards = [...document.querySelectorAll('#horariosContainer .slot-card-item')];
+    await Promise.all(cards.map(card => {
+      const id = card.dataset.id;
+      const activo = card.querySelector('input[type=checkbox]').checked;
+      const limite = parseInt(card.querySelector('.slot-capacity-input').value) || 4;
+      return sbPatch('configuracion_horarios', id, { activo, limite_personas: limite });
+    }));
+    
+    cards.forEach(card => {
+      const h = horariosData.find(x => x.id === card.dataset.id);
+      if (h) {
+        h.activo = card.querySelector('input[type=checkbox]').checked;
+        h.limite_personas = parseInt(card.querySelector('.slot-capacity-input').value) || 4;
+      }
+    });
     toast('Horarios guardados');
   } catch(e) { toast('Error: '+e.message,'error'); }
   btn.disabled=false; btn.textContent='Guardar cambios';
