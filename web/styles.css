@@ -3396,7 +3396,6 @@ section[id] {
 .hero-double-drips .wave-white-color {
   z-index: 2;
   bottom: 0;
-  filter: drop-shadow(0 4px 8px rgba(180, 80, 110, 0.12)); /* Soft shadow for 3D depth */
 }
 
 /* Features Bar Below Hero */
